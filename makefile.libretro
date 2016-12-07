@@ -88,11 +88,15 @@ else ifneq (,$(findstring ios,$(platform)))
 	TARGET := $(TARGET_NAME)_libretro_ios.dylib
 	fpic := -fPIC
 	SHARED := -dynamiclib
+	#CC = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
+	#CXX = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
+	CC = xcrun --sdk iphoneos clang
+	CXX = xcrun --sdk iphoneos clang++
 ifeq ($(IOSSDK),)
 	IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
 endif
-	CC = cc -arch armv7 -isysroot $(IOSSDK)
-	CXX = c++ -arch armv7 -isysroot $(IOSSDK)
+	CC += -arch armv7 -isysroot $(IOSSDK)
+	CXX += -arch armv7 -isysroot $(IOSSDK)
 	ENDIANNESS_DEFINES := -DLSB_FIRST
 ifeq ($(platform),ios9)
 	CFLAGS += -DIOS9
